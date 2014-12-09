@@ -9,7 +9,7 @@ if numel(IdxNonEmptyShelves)>0
     for h=IdxAgents_new
         %Capital income spent on consumption
         QuarterlyCashOnHand = ...
-            sum(Households.QuarterlyLaborIncome(:,h))+0.3*Households.QuarterlyCapitalIncome(h)-Households.HousingPayment(h);
+            sum(Households.QuarterlyLaborIncome(:,h))+0.2*Households.QuarterlyCapitalIncome(h)-Households.HousingPayment(h);
         %No spending of capital income
         %QuarterlyCashOnHand = ...
         %    sum(Households.QuarterlyLaborIncome(:,h))-Households.HousingPayment(h);

@@ -5,11 +5,11 @@ close all
 Simulation.DurationInQuarters = 60;
 
 BudgetConstraints_grid = [0.25,0.3,0.4];
-RandomSeeds_grid = [832040];
-CapitalistProb_grid = [0.2];
+RandomSeeds_grid = [832040]; %default seed 832040
+CapitalistProb_grid = [1];
 UseIndexedMortgages_grid = [0];
 
-SimulationRunPar.RunNumber = 3692683;
+SimulationRunPar.RunNumber = 3692713;
 
 warning off
 

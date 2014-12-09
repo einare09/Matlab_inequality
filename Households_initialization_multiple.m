@@ -34,11 +34,11 @@ nrnoncapitalists = NrAgents.Households-nrcapitalists;
 %init housingamount
 Households.HousingAmount = ones(1,NrAgents.Households);
 %number of housing units distributed to capitalist households
-Households.HousingAmount(1:1:nrcapitalists) = round(0.7*nrhousingunits/nrcapitalists);
+%Households.HousingAmount(1:1:nrcapitalists) = round(0.6*nrhousingunits/nrcapitalists);
 %number of housing units distributed to non-capitalists housholds
-Households.HousingAmount(nrcapitalists+1:1:NrAgents.Households) = round(0.3*nrhousingunits/nrnoncapitalists);
+%Households.HousingAmount(nrcapitalists+1:1:NrAgents.Households) = round(0.4*nrhousingunits/nrnoncapitalists);
 %OLD DEFINITION OF HOUSING UNITS
-%Households.HousingAmount = ones(1,NrAgents.Households).*REmarket.HousingUnit; 
+Households.HousingAmount = ones(1,NrAgents.Households).*REmarket.HousingUnit; 
 
 Households.HousingValue = REmarket.HousingPrice(end).*Households.HousingAmount;
 Households.TotalAssets = Households.Liquidity + Households.HousingValue; %Households.Savings

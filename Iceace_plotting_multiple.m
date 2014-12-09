@@ -3,7 +3,7 @@ close all
 clear all
 
 counter = 0;
-for RunNumber = [3692661,3692681,3692684]    
+for RunNumber = [3692711:3692713]    
     colori = {'k';'b';'g';'r';'y';'m'};
     coloridased = {'--k';'--b';'--g';'--r';'--y';'--m'};
     coloridotted = {':k';':b';':g';':r';':y';':m'};
@@ -19,6 +19,7 @@ for RunNumber = [3692661,3692681,3692684]
     font_sz = 14;
     line_wdt = 1;
     counter = counter + 1;
+    
     colore = colori{counter};
     coloredased = coloridased{counter};
     coloredotted = coloridotted{counter};
@@ -53,7 +54,7 @@ for RunNumber = [3692661,3692681,3692684]
     xlabel('quarters','fontsize',font_sz)
     title('Aggregate Liquidity','fontsize',font_sz)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
-    legend('Households','All Firms','Households + All Firms',0)
+    legend('Households','All Firms',0)
     
     
     %% Debts and Loans
@@ -65,7 +66,7 @@ for RunNumber = [3692661,3692681,3692684]
     xlabel('quarters','fontsize',font_sz)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     title('Aggregate debt and Loans','fontsize',font_sz)
-    legend('Firms','CstrFirms','Banks',0)
+    legend('Firms','CstrFirms',0)
     
     
     %% Iceace fundamental identity
@@ -653,31 +654,41 @@ for RunNumber = [3692661,3692681,3692684]
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     
-    TotalHHEquity = sum(HouseholdsEquity,2);
-    TotalHHEquity = 100*TotalHHEquity(1:4:end)./PriceIndex100;
-    CapHHEquity = sum(HouseholdsEquity(:,1:1:NrAgents.Households*CapitalistRatio),2);
-    CapHHEquity = 100*CapHHEquity(1:4:end)./PriceIndex100;
-    RegHHEquity = sum(HouseholdsEquity(:,(NrAgents.Households*CapitalistRatio+1):1:NrAgents.Households),2);
-    RegHHEquity = 100*RegHHEquity(1:4:end)./PriceIndex100;
-    
     Total_num_capitalists = NrAgents.Households*Households.Parameters.IsCapitalistProb;
     Total_num_noncapitalists = NrAgents.Households*(1-Households.Parameters.IsCapitalistProb);
+        
+    TotalHHEquity = sum(HouseholdsEquity,2);
+    TotalHHEquity = TotalHHEquity(1:4:end);%*100./PriceIndex100;
+    CapHHEquity = sum(HouseholdsEquity(:,1:1:Total_num_capitalists),2);
+    CapHHEquity = CapHHEquity(1:4:end);%*100./PriceIndex100;
+    RegHHEquity = sum(HouseholdsEquity(:,(Total_num_capitalists+1):1:NrAgents.Households),2);
+    RegHHEquity = RegHHEquity(1:4:end);%*100./PriceIndex100;
+    
     
     figure(303)    
     set(gcf,'Name','Equity')
-    subplot(2,1,1);hold on; grid on; box on
-    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end),CapHHEquity./Total_num_capitalists,colore)
-    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end),RegHHEquity./Total_num_noncapitalists,coloredased)
-    xlabel('years','fontsize',font_sz)
-    ylabel('Equity of Households','fontsize',font_sz)
-    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
-    subplot(2,1,2);hold on; grid on; box on
+    subplot(3,1,1);hold on; grid on; box on
     plot(XVector_year(1:TimeConstants.NrDaysInMonth:end),CapHHEquity./TotalHHEquity,colore)
     plot(XVector_year(1:TimeConstants.NrDaysInMonth:end),RegHHEquity./TotalHHEquity,coloredased)
     xlabel('years','fontsize',font_sz)
     ylabel('Equity share of Households','fontsize',font_sz)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     legend('Capitalists','Non-capitalists',0)
+    
+    subplot(3,1,2);hold on; grid on; box on
+    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end),CapHHEquity,colore)
+    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end),RegHHEquity,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Equity of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    
+    subplot(3,1,3);hold on; grid on; box on
+    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end),CapHHEquity./Total_num_capitalists,colore)
+    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end),RegHHEquity./Total_num_noncapitalists,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Equity of Households (mean)','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    
     
     
 %     subplot(3,1,3); hold on; grid on; box on
@@ -777,7 +788,7 @@ for RunNumber = [3692661,3692681,3692684]
     
     figure(307)
     set(gcf,'Name','Mortgages')
-    subplot(2,1,1); hold on; grid on; box on;
+    subplot(3,1,1); hold on; grid on; box on;
     plot(XVector_year(1:Num_weeks_in_year:end),M_CAP_yearly,colore)
     plot(XVector_year(1:Num_weeks_in_year:end),M_nonCAP_yearly,coloredased)
     xlabel('years','fontsize',font_sz)
@@ -785,11 +796,19 @@ for RunNumber = [3692661,3692681,3692684]
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     legend('Capitalists','Non-capitalists',0)
     
-    subplot(2,1,2);hold on; grid on; box on;
+    subplot(3,1,2);hold on; grid on; box on;
     plot(XVector_year(1:Num_weeks_in_year:end),M_abs_CAP_yearly,colore)
     plot(XVector_year(1:Num_weeks_in_year:end),M_abs_nonCAP_yearly,coloredased)
     xlabel('years','fontsize',font_sz)
     ylabel('Mortgages of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    
+    subplot(3,1,3);hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),M_abs_CAP_yearly./Total_num_capitalists,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),M_abs_nonCAP_yearly./Total_num_noncapitalists,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Mortgages of Households (mean)','fontsize',font_sz)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     legend('Capitalists','Non-capitalists',0)
     %% Disposable Income D=Disposable Income
@@ -814,7 +833,15 @@ for RunNumber = [3692661,3692681,3692684]
     
     figure(308)
     set(gcf,'Name','Disposable Income')
-    subplot(2,1,1); hold on; grid on; box on;
+    subplot(3,1,1);hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_CAP_yearly,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_nonCAP_yearly,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Share of Disposable Income of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    
+    subplot(3,1,2); hold on; grid on; box on;
     plot(XVector_year(1:Num_weeks_in_year:end),DI_abs_CAP_yearly,colore)
     plot(XVector_year(1:Num_weeks_in_year:end),DI_abs_nonCAP_yearly,coloredased)
     xlabel('years','fontsize',font_sz)
@@ -822,11 +849,11 @@ for RunNumber = [3692661,3692681,3692684]
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     legend('Capitalists','Non-capitalists',0)
     
-    subplot(2,1,2);hold on; grid on; box on;
-    plot(XVector_year(1:Num_weeks_in_year:end),DI_CAP_yearly,colore)
-    plot(XVector_year(1:Num_weeks_in_year:end),DI_nonCAP_yearly,coloredased)
+    subplot(3,1,3); hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_abs_CAP_yearly./Total_num_capitalists,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_abs_nonCAP_yearly./Total_num_noncapitalists,coloredased)
     xlabel('years','fontsize',font_sz)
-    ylabel('Share of Disposable Income of Households','fontsize',font_sz)
+    ylabel('Disposable Income of Households (mean)','fontsize',font_sz)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     legend('Capitalists','Non-capitalists',0)
     

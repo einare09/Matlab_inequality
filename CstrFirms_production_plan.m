@@ -19,10 +19,11 @@ CstrFirms.ProductionCapacity = floor(CstrFirms.KapitalProductivity.*CstrFirms.Ph
 %end
 
 if diff(REmarket.HousingPrice(end-1:end)) > 0
-    CstrFirms.ProductionPlan = max(CstrFirms.Projects.NrCurrentProjects,unidrnd(CstrFirms.ProductionCapacity,[1,NrAgents.CstrFirms])); %should be between no of current project and capacity
+    CstrFirms.ProductionPlan = 0.8*CstrFirms.ProductionPlan + 0.2*max(CstrFirms.Projects.NrCurrentProjects,unidrnd(CstrFirms.ProductionCapacity,[1,NrAgents.CstrFirms])); %should be between no of current project and capacity
 else
-    CstrFirms.ProductionPlan = unidrnd(CstrFirms.Projects.NrCurrentProjects,[1,NrAgents.CstrFirms]);
+    CstrFirms.ProductionPlan = max(0.8*CstrFirms.ProductionPlan - 0.2*unidrnd(CstrFirms.Projects.NrCurrentProjects,[1,NrAgents.CstrFirms]),1);
 end
+
 CstrFirms.LaborDemand = ceil(CstrFirms.ProductionPlan./CstrFirms.LaborProductivity);
 CstrFirms.vacancies = max(0,CstrFirms.LaborDemand-CstrFirms.NrEmployees);
 CstrFirms.layoffs = max(0,CstrFirms.NrEmployees-CstrFirms.LaborDemand);
