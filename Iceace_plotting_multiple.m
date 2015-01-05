@@ -3,7 +3,7 @@ close all
 clear all
 
 counter = 0;
-for RunNumber = [3692711:3692713]    
+for RunNumber = [3692714:3692716]    
     colori = {'k';'b';'g';'r';'y';'m'};
     coloridased = {'--k';'--b';'--g';'--r';'--y';'--m'};
     coloridotted = {':k';':b';':g';':r';':y';':m'};
@@ -721,6 +721,14 @@ for RunNumber = [3692711:3692713]
     DI_CAP = QuarterlyIncome_CAP - HouseholdsHousingPayment(:,1:1:Total_num_capitalists);
     DI_nonCAP = QuarterlyIncome_nonCAP - HouseholdsHousingPayment(:,Total_num_capitalists+1:1:end);
     
+    %Housing Units
+    HU_CAP = HouseholdsHousingAmount(:,1:1:Total_num_capitalists);
+    HU_nonCAP = HouseholdsHousingAmount(:,Total_num_capitalists+1:1:end);
+    
+    %Liquidity
+    LIQ_CAP = HouseholdsLiquidity(:,1:1:Total_num_capitalists);
+    LIQ_nonCAP = HouseholdsLiquidity(:,Total_num_capitalists+1:1:end);
+    
     %% Households expenditure on housing
     figure(305);
     set(gcf,'Name','REmarket: Financial fragility indicators')
@@ -857,6 +865,85 @@ for RunNumber = [3692711:3692713]
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     legend('Capitalists','Non-capitalists',0)
     
+    %% Housing units
+    HU_Total = sum(HU_CAP,2) + sum(HU_nonCAP,2);
+    HU_abs_CAP = sum(HU_CAP,2);
+    HU_abs_nonCAP = sum(HU_nonCAP,2);
+    HU_abs_CAP_yearly = zeros(1,Num_years);
+    HU_abs_nonCAP_yearly = zeros(1,Num_years);
+    t1 = 1;
+    t2 = Num_weeks_in_year;
+    for k=1:Num_years
+       HU_abs_CAP_yearly(k) = mean(HU_abs_CAP(t1:t2));
+       HU_abs_nonCAP_yearly(k) = mean(HU_abs_nonCAP(t1:t2));
+       t1 = t1 + Num_weeks_in_year;
+       t2 = t2 + Num_weeks_in_year;
+    end
+    
+    
+    figure(309)
+    set(gcf,'Name','Housing Units')
+    subplot(2,1,1);hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),HU_abs_CAP_yearly,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),HU_abs_nonCAP_yearly,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Housing Units of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    
+    subplot(2,1,2); hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),HU_abs_CAP_yearly./Total_num_capitalists,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),HU_abs_nonCAP_yearly./Total_num_noncapitalists,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Housing Units of Households (mean)','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    
+    %% Liquidity
+    LIQ_Total = sum(LIQ_CAP,2) + sum(LIQ_nonCAP,2);
+    LIQ_abs_CAP = sum(LIQ_CAP,2);
+    LIQ_abs_nonCAP = sum(LIQ_nonCAP,2);
+    LIQ_CAP = sum(LIQ_CAP,2)./LIQ_Total;
+    LIQ_nonCAP = sum(LIQ_nonCAP,2)./LIQ_Total;
+    LIQ_CAP_yearly = zeros(1,Num_years);
+    LIQ_nonCAP_yearly = zeros(1,Num_years);
+    t1 = 1;
+    t2 = Num_weeks_in_year;
+    for k=1:Num_years
+       LIQ_abs_CAP_yearly(k) = mean(LIQ_abs_CAP(t1:t2));
+       LIQ_abs_nonCAP_yearly(k) = mean(LIQ_abs_nonCAP(t1:t2));
+       LIQ_CAP_yearly(k) = mean(LIQ_CAP(t1:t2));
+       LIQ_nonCAP_yearly(k) = mean(LIQ_nonCAP(t1:t2));
+       t1 = t1 + Num_weeks_in_year;
+       t2 = t2 + Num_weeks_in_year;
+    end
+    
+    
+    figure(310)
+    set(gcf,'Name','Liquidity')
+    subplot(3,1,1);hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_CAP_yearly,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_nonCAP_yearly,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Share of Liquidity of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    
+    subplot(3,1,2); hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_abs_CAP_yearly,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_abs_nonCAP_yearly,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Liquidity of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    
+    subplot(3,1,3); hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_abs_CAP_yearly./Total_num_capitalists,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_abs_nonCAP_yearly./Total_num_noncapitalists,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Liquidity of Households (mean)','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
     
     %% Clear
     clear g_netto l_netto a_netto g_lordo l_lordo a_lordo Households Firms CstrFirms Banks Fund InflationIndex
