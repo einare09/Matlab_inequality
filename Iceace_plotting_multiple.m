@@ -3,7 +3,7 @@ close all
 clear all
 
 counter = 0;
-for RunNumber = [3692714:3692716]    
+for RunNumber = [3692717:3692719]    
     colori = {'k';'b';'g';'r';'y';'m'};
     coloridased = {'--k';'--b';'--g';'--r';'--y';'--m'};
     coloridotted = {':k';':b';':g';':r';':y';':m'};
@@ -944,6 +944,63 @@ for RunNumber = [3692714:3692716]
     ylabel('Liquidity of Households (mean)','fontsize',font_sz)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     legend('Capitalists','Non-capitalists',0)
+    
+    %% Plot for Andrea - Liquidity, disposable income and actual consumption
+    
+    figure(311)
+    set(gcf,'Name','Households: Share of Liquidity, Disposable Income')
+    subplot(2,1,1);hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_CAP_yearly,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_nonCAP_yearly,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Share of Liquidity of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    subplot(2,1,2);hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_CAP_yearly,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_nonCAP_yearly,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Share of Disposable Income of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    
+    
+    
+    figure(312)
+    set(gcf,'Name','Households: Liquidity, Disposable Income')
+    subplot(2,1,1); hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_abs_CAP_yearly,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_abs_nonCAP_yearly,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Liquidity of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    subplot(2,1,2); hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_abs_CAP_yearly,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_abs_nonCAP_yearly,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Disposable Income of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    
+    figure(313)
+    set(gcf,'Name','Households: Liquidity, Disposable Income (mean)')
+    subplot(2,1,1); hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_abs_CAP_yearly./Total_num_capitalists,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),LIQ_abs_nonCAP_yearly./Total_num_noncapitalists,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Liquidity of Households (mean)','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    subplot(2,1,2); hold on; grid on; box on;
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_abs_CAP_yearly./Total_num_capitalists,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),DI_abs_nonCAP_yearly./Total_num_noncapitalists,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Disposable Income of Households (mean)','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists',0)
+    
+    
     
     %% Clear
     clear g_netto l_netto a_netto g_lordo l_lordo a_lordo Households Firms CstrFirms Banks Fund InflationIndex
