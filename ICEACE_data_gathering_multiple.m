@@ -1,5 +1,5 @@
 
-for RunNumber = [3692719]
+for RunNumber = [3692721:3692723]
     
     if isunix
         Pat = '../../runs/';
@@ -8,7 +8,7 @@ for RunNumber = [3692719]
     end
     
     SimulationStartingDay = 60/5;
-    SimulationDurationInQuarters = 100;
+    SimulationDurationInQuarters = 120;
 
 SimulationDay_final = SimulationStartingDay + SimulationDurationInQuarters*3*20/5;
     
