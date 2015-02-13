@@ -19,17 +19,11 @@ CstrFirms.ProductionCapacity = floor(CstrFirms.KapitalProductivity.*CstrFirms.Ph
 %end
 
 if diff(REmarket.HousingPrice(end-1:end)) > 0
-    %new plan
-    %CstrFirms.ProductionPlan = 0.8*CstrFirms.ProductionPlan + 0.2*max(CstrFirms.Projects.NrCurrentProjects,unidrnd(CstrFirms.ProductionCapacity,[1,NrAgents.CstrFirms]));
-    
-    %old plan: should be between no of current project and capacity
+    %CstrFirms.ProductionPlan = 0.8*CstrFirms.ProductionPlan + 0.2*max(CstrFirms.Projects.NrCurrentProjects,unidrnd(CstrFirms.ProductionCapacity,[1,NrAgents.CstrFirms])); %new plan
     CstrFirms.ProductionPlan = max(CstrFirms.Projects.NrCurrentProjects,unidrnd(CstrFirms.ProductionCapacity,[1,NrAgents.CstrFirms]));
-    
+    %%old plan: should be between no of current project and capacity
 else
-    %new plan
     %CstrFirms.ProductionPlan = max(0.8*CstrFirms.ProductionPlan - 0.2*unidrnd(CstrFirms.Projects.NrCurrentProjects,[1,NrAgents.CstrFirms]),1);
-    
-    %old plan
     CstrFirms.ProductionPlan = max(unidrnd(CstrFirms.Projects.NrCurrentProjects,[1,NrAgents.CstrFirms]),1); %old plan
 end
 

@@ -1,5 +1,5 @@
 
-for RunNumber = [3692721:3692723]
+for RunNumber = SimulationRunPar.RunNumbers %[832071:832072]
     
     if isunix
         Pat = '../../runs/';
@@ -7,10 +7,9 @@ for RunNumber = [3692721:3692723]
         Pat = '..\..\runs\';
     end
     
-    SimulationStartingDay = 60/5;
-    SimulationDurationInQuarters = 120;
-
-SimulationDay_final = SimulationStartingDay + SimulationDurationInQuarters*3*20/5;
+    SimulationStartingDay = 12;
+    SimulationDurationInQuarters = Simulation.DurationInQuarters;
+    SimulationDay_final = SimulationStartingDay + SimulationDurationInQuarters*3*4;
     
     ii = 0;
     quarter = 0;
@@ -19,9 +18,11 @@ SimulationDay_final = SimulationStartingDay + SimulationDurationInQuarters*3*20/
         clear Households Banks CsrtFirms Government CentralBank Firms
         clear REmarket TimeConstants PriceIndices NrAgents
         
-        ii = ii + 1;
+        
         Filename = ['ICEACE_run', num2str(RunNumber), '_day', num2str(d), '.mat'];
         load([Pat, Filename])
+        
+        ii = ii + 1;
         
         HouseholdsLiquidity(ii,:) = Households.Liquidity;
         FirmsLiquidity(ii,:) = Firms.Liquidity;
@@ -128,7 +129,7 @@ SimulationDay_final = SimulationStartingDay + SimulationDurationInQuarters*3*20/
         
         FirmsInsolvency(ii,1) = numel(insolvent_firms);
         FirmsIlliquidity(ii,1) = numel(illiquid_firms);
-%        CstrFirmsInsolvency(ii,1) = numel(insolvent_cstrfirms);
+%       CstrFirmsInsolvency(ii,1) = numel(insolvent_cstrfirms);
         CstrFirmsIlliquidity(ii,1) = numel(illiquid_cstrfirms);
         
         FundLiquidity(ii,1) = Fund.Liquidity;
@@ -147,18 +148,18 @@ SimulationDay_final = SimulationStartingDay + SimulationDurationInQuarters*3*20/
         
              
     end
-    
+    %clear ii quarter
     %% Save
     Filename = ['ICEACE_run',num2str(RunNumber),'_All','.mat'];
     save([Pat, Filename])
     
-    clear all        
+    %clear all 
+    %clearvars -EXCEPT SimulationRunPar Simulation
+    %clear Firms* CstrFirms* Fund* Households* LaborTax CapitalIncomeTax UnemploymentRatio...
+    %    BenefitRatio Government* Banks* Housing* InventoriesVector CBRate Cstr* CentralBank*...
+    %    EmployeesVector ExpectedSalesVector UnemployedWorkers CGPEmployedWorkers...
+    %    Production* Inventories SalesVector Price* WageIndex Inflation LaborDemandVector...
+    %    ProductionPlanVector quarter
 end
-
-
-
-
-
-
 
 

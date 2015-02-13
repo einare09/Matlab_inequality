@@ -1,6 +1,6 @@
 
 
-for RunNumber = [3692721:3692723]
+for RunNumber = SimulationRunPar.RunNumbers %[832069]
     
     if isunix
         Pat = '../../runs/';
@@ -9,9 +9,9 @@ for RunNumber = [3692721:3692723]
     end
     
     SimulationStartingDay = 12;
-    SimulationDurationInQuarters = 100;
+    SimulationDurationInQuarters = Simulation.DurationInQuarters;
     
-    SimulationDay_final = SimulationStartingDay + SimulationDurationInQuarters*3*20;
+    SimulationDay_final = SimulationStartingDay + SimulationDurationInQuarters*3*4;
     
     fprintf('\r Deleting RunNumber: %d',RunNumber)
     

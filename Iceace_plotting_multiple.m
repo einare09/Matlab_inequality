@@ -5,7 +5,7 @@ clear all
 counter = 0;
 
 %Define RunNumbers
-RunNumbers = [3692711:3692713];
+RunNumbers = [832074:832076];
 %for saving figures - Define path to figure folder
 FigPat = strcat('C:\Users\Iceace\Dropbox\Phd\Inequality\',num2str(RunNumbers(1)),'-',num2str(RunNumbers(end)));
 current_folder = cd;
@@ -579,7 +579,7 @@ for RunNumber = RunNumbers
     %file save pdf
     if RunNumber == RunNumbers(end)
     cd(FigPat);
-    saveas(gcf,strcat('Firms_Bankruptcies','.pdf'))
+    saveas(gcf,strcat('Mortgage_writeoffs','.pdf'))
     cd(current_folder); 
     end
      
@@ -814,7 +814,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    %% Figure 26: Cap vs. NonCap: Income share of households QI=Quarterly Income
+    % Figure 26: Cap vs. NonCap: Income share of households QI=Quarterly Income
     QI_Total = sum(QuarterlyIncome_CAP,2) + sum(QuarterlyIncome_nonCAP,2);
     QI_CAP = sum(QuarterlyIncome_CAP,2)./QI_Total;
     QI_nonCAP = sum(QuarterlyIncome_nonCAP,2)./QI_Total;
@@ -822,34 +822,34 @@ for RunNumber = RunNumbers
     QI_nonCAP_yearly = zeros(1,Num_years);
     t1 = 1;
     t2 = Num_weeks_in_year;
-    for k=1:15
+    for k=1:Num_years
        QI_CAP_yearly(k) = mean(QI_CAP(t1:t2));
        QI_nonCAP_yearly(k) = mean(QI_nonCAP(t1:t2));
        t1 = t1 + Num_weeks_in_year;
        t2 = t2 + Num_weeks_in_year;
     end
         
-%     figure(26)
-%     set(gcf,'Name','Share of Quarterly Income')
-%     set(gcf,'PaperType','A4')
-%     set(gcf,'PaperPosition',[0,0,8.26,11.69])
-%     hold on; grid on; box on
-%     plot(XVector_year(1:Num_weeks_in_year:end),QI_CAP_yearly,colore)
-%     plot(XVector_year(1:Num_weeks_in_year:end),QI_nonCAP_yearly,coloredased)
-%     xlabel('years','fontsize',font_sz)
-%     ylabel('Income share of Households','fontsize',font_sz)
-%     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
-%     legend('Capitalists','Non-capitalists','Location','Best')
-%     hold off
-%     
-%     %file save pdf
-%     if RunNumber == RunNumbers(end)  
-%     cd(FigPat);
-%     saveas(gcf,strcat('Cap_vs_NonCap_HousingExpenditure','.pdf'))
-%     cd(current_folder);
-%     end
+    figure(26)
+    set(gcf,'Name','Share of Quarterly Income')
+    set(gcf,'PaperType','A4')
+    set(gcf,'PaperPosition',[0,0,8.26,11.69])
+    hold on; grid on; box on
+    plot(XVector_year(1:Num_weeks_in_year:end),QI_CAP_yearly,colore)
+    plot(XVector_year(1:Num_weeks_in_year:end),QI_nonCAP_yearly,coloredased)
+    xlabel('years','fontsize',font_sz)
+    ylabel('Income share of Households','fontsize',font_sz)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    legend('Capitalists','Non-capitalists','Location','Best')
+    hold off
+    
+    %file save pdf
+    if RunNumber == RunNumbers(end)  
+    cd(FigPat);
+    saveas(gcf,strcat('Cap_vs_NonCap_HousingExpenditure','.pdf'))
+    cd(current_folder);
+    end
 
-    %% Figure 27: Cap vs. NonCap: Mortgage share of households M=Mortgages
+    % Figure 27: Cap vs. NonCap: Mortgage share of households M=Mortgages
     M_Total = sum(Mortgages_CAP,2) + sum(Mortgages_nonCAP,2);
     M_abs_CAP = sum(Mortgages_CAP,2);
     M_abs_nonCAP = sum(Mortgages_nonCAP,2);
@@ -910,7 +910,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    %% Figure 28: Cap vs. NonCap:Disposable Income D=Disposable Income
+    % Figure 28: Cap vs. NonCap:Disposable Income D=Disposable Income
     DI_Total = sum(DI_CAP,2) + sum(DI_nonCAP,2);
     DI_abs_CAP = sum(DI_CAP,2);
     DI_abs_nonCAP = sum(DI_nonCAP,2);
@@ -969,7 +969,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    %% Figure 29: Cap vs. NonCap: Housing units
+    % Figure 29: Cap vs. NonCap: Housing units
     HU_Total = sum(HU_CAP,2) + sum(HU_nonCAP,2);
     HU_abs_CAP = sum(HU_CAP,2);
     HU_abs_nonCAP = sum(HU_nonCAP,2);
@@ -1014,7 +1014,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    %% Figure 30: Cap vs. NonCap: Liquidity
+    % Figure 30: Cap vs. NonCap: Liquidity
     LIQ_Total = sum(LIQ_CAP,2) + sum(LIQ_nonCAP,2);
     LIQ_abs_CAP = sum(LIQ_CAP,2);
     LIQ_abs_nonCAP = sum(LIQ_nonCAP,2);
@@ -1073,7 +1073,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    %% Figure 31: Cap vs. NonCap: - Liquidity, disposable income and actual consumption (share)
+    % Figure 31: Cap vs. NonCap: - Liquidity, disposable income and actual consumption (share)
     
     figure(31)
     set(gcf,'Name','Households: Share of Liquidity, Disposable Income')
@@ -1105,7 +1105,7 @@ for RunNumber = RunNumbers
     cd(current_folder);    
     end
     
-    %% Figure 32: Cap vs. NonCap: - Liquidity, disposable income and actual consumption
+    % Figure 32: Cap vs. NonCap: - Liquidity, disposable income and actual consumption
     figure(32)
     set(gcf,'Name','Households: Liquidity, Disposable Income')
     set(gcf,'PaperType','A4')
@@ -1136,7 +1136,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    %% Figure 33: Cap vs. NonCap: - Liquidity, disposable income and actual consumption (mean)
+    % Figure 33: Cap vs. NonCap: - Liquidity, disposable income and actual consumption (mean)
     figure(33)
     set(gcf,'Name','Households: Liquidity, Disposable Income (mean)')
     set(gcf,'PaperType','A4')
@@ -1167,7 +1167,7 @@ for RunNumber = RunNumbers
     cd(current_folder);  
     end
     
-    %% Figure 34: Cap vs. NonCap: - Mortgage to Equity ratio
+    % Figure 34: Cap vs. NonCap: - Mortgage to Equity ratio
     EQ_Total = sum(CapHHEquity,2) + sum(RegHHEquity,2);
     EQ_abs_CAP = sum(CapHHEquity,2);
     EQ_abs_nonCAP = sum(RegHHEquity,2);
@@ -1202,7 +1202,7 @@ for RunNumber = RunNumbers
     end
     
     
-    %% Figure 35: Cap vs. NonCap: - Income to Mortgages ratio
+    % Figure 35: Cap vs. NonCap: - Income to Mortgages ratio
     figure(35); hold on; grid on; box on;
     set(gcf,'Name','Households: Disposable Income to Mortgages ratio')
     set(gcf,'PaperType','A4')
@@ -1222,7 +1222,7 @@ for RunNumber = RunNumbers
     cd(current_folder);  
     end
     
-    %% Figure 36: Economy: RealGDP and Unemployment
+    % Figure 36: Economy: RealGDP and Unemployment
  
     RealGDP_yearly = zeros(1,Num_years);
     Unemployment_yearly = zeros(1,Num_years);

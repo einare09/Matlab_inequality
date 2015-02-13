@@ -3,7 +3,7 @@ Households.Parameters.LaborTurnoverProbability = 0.1;
 Households.Parameters.Memory0 = 1; %used to remember past wages and past real estate prices
 Households.Parameters.WealthEffect0 = 0.07;
 Households.Parameters.IsCapitalistProb = SimulationRunPar.CapitalistProb;
-
+Households.Parameters.CapitalistConsumptionBudget = CapitalistConsumptionBudget;
 
 %% Household initial state variables
 %HouseholdsLaborIncome0 = 20;
