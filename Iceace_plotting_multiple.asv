@@ -5,7 +5,7 @@ clear all
 counter = 0;
 
 %Define RunNumbers
-RunNumbers = [832094:832093];
+RunNumbers = [832102,832103,832106,832107];
 %for saving figures - Define path to figure folder
 FigPat = strcat('C:\Users\Iceace\Dropbox\Phd\Inequality\',num2str(RunNumbers(1)),'-',num2str(RunNumbers(end)));
 current_folder = cd;
@@ -815,7 +815,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    % Figure 26: Cap vs. NonCap: Income share of households QI=Quarterly Income
+    %% Figure 26: Cap vs. NonCap: Income share of households QI=Quarterly Income
     QI_Total = sum(QuarterlyIncome_CAP,2) + sum(QuarterlyIncome_nonCAP,2);
     QI_CAP = sum(QuarterlyIncome_CAP,2)./QI_Total;
     QI_nonCAP = sum(QuarterlyIncome_nonCAP,2)./QI_Total;
@@ -850,7 +850,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
 
-    % Figure 27: Cap vs. NonCap: Mortgage share of households M=Mortgages
+    %% Figure 27: Cap vs. NonCap: Mortgage share of households M=Mortgages
     M_Total = sum(Mortgages_CAP,2) + sum(Mortgages_nonCAP,2);
     M_abs_CAP = sum(Mortgages_CAP,2);
     M_abs_nonCAP = sum(Mortgages_nonCAP,2);
@@ -911,7 +911,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    % Figure 28: Cap vs. NonCap:Disposable Income D=Disposable Income
+    %% Figure 28: Cap vs. NonCap:Disposable Income D=Disposable Income
     DI_Total = sum(DI_CAP,2) + sum(DI_nonCAP,2);
     DI_abs_CAP = sum(DI_CAP,2);
     DI_abs_nonCAP = sum(DI_nonCAP,2);
@@ -970,7 +970,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    % Figure 29: Cap vs. NonCap: Housing units
+    %% Figure 29: Cap vs. NonCap: Housing units
     HU_Total = sum(HU_CAP,2) + sum(HU_nonCAP,2);
     HU_abs_CAP = sum(HU_CAP,2);
     HU_abs_nonCAP = sum(HU_nonCAP,2);
@@ -1015,7 +1015,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    % Figure 30: Cap vs. NonCap: Liquidity
+    %% Figure 30: Cap vs. NonCap: Liquidity
     LIQ_Total = sum(LIQ_CAP,2) + sum(LIQ_nonCAP,2);
     LIQ_abs_CAP = sum(LIQ_CAP,2);
     LIQ_abs_nonCAP = sum(LIQ_nonCAP,2);
@@ -1074,7 +1074,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    % Figure 31: Cap vs. NonCap: - Liquidity, disposable income and actual consumption (share)
+    %% Figure 31: Cap vs. NonCap: - Liquidity, disposable income and actual consumption (share)
     
     figure(31)
     set(gcf,'Name','Households: Share of Liquidity, Disposable Income')
@@ -1106,7 +1106,7 @@ for RunNumber = RunNumbers
     cd(current_folder);    
     end
     
-    % Figure 32: Cap vs. NonCap: - Liquidity, disposable income and actual consumption
+    %% Figure 32: Cap vs. NonCap: - Liquidity, disposable income and actual consumption
     figure(32)
     set(gcf,'Name','Households: Liquidity, Disposable Income')
     set(gcf,'PaperType','A4')
@@ -1137,7 +1137,7 @@ for RunNumber = RunNumbers
     cd(current_folder);
     end
     
-    % Figure 33: Cap vs. NonCap: - Liquidity, disposable income and actual consumption (mean)
+    %% Figure 33: Cap vs. NonCap: - Liquidity, disposable income and actual consumption (mean)
     figure(33)
     set(gcf,'Name','Households: Liquidity, Disposable Income (mean)')
     set(gcf,'PaperType','A4')
@@ -1168,7 +1168,7 @@ for RunNumber = RunNumbers
     cd(current_folder);  
     end
     
-    % Figure 34: Cap vs. NonCap: - Mortgage to Equity ratio
+    %% Figure 34: Cap vs. NonCap: - Mortgage to Equity ratio
     EQ_Total = sum(CapHHEquity,2) + sum(RegHHEquity,2);
     EQ_abs_CAP = sum(CapHHEquity,2);
     EQ_abs_nonCAP = sum(RegHHEquity,2);
@@ -1223,7 +1223,7 @@ for RunNumber = RunNumbers
     cd(current_folder);  
     end
     
-    % Figure 36: Economy: RealGDP and Unemployment
+    %% Figure 36: Economy: RealGDP and Unemployment
  
     RealGDP_yearly = zeros(1,Num_years);
     Unemployment_yearly = zeros(1,Num_years);
@@ -1273,3 +1273,11 @@ for RunNumber = RunNumbers
     %% Clear
     clear g_netto l_netto a_netto g_lordo l_lordo a_lordo Households Firms CstrFirms Banks Fund InflationIndex
 end
+
+%% save Params to file
+P.Params = Params;
+cd(FigPat);
+save('Parameters.mat', '-struct', 'Params');
+Parameters.xml = struct2xml(P);
+
+cd(current_folder);
