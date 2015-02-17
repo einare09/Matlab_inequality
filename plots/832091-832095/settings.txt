@@ -1,0 +1,39 @@
+ Params.r832091.SimulationRunPar
+
+ans = 
+
+              RunNumber: 832091
+             RandomSeed: 832050
+       BudgetConstraint: 0.2500
+         CapitalistProb: 0.2000
+    UseIndexedMortgages: 0
+
+>> Params.r832092.SimulationRunPar
+
+ans = 
+
+              RunNumber: 832092
+             RandomSeed: 832050
+       BudgetConstraint: 0.2500
+         CapitalistProb: 0.3000
+    UseIndexedMortgages: 0
+
+>> Params.r832094.SimulationRunPar
+
+ans = 
+
+              RunNumber: 832094
+             RandomSeed: 832050
+       BudgetConstraint: 0.3000
+         CapitalistProb: 0.2000
+    UseIndexedMortgages: 0
+
+>> Params.r832095.SimulationRunPar
+
+ans = 
+
+              RunNumber: 832095
+             RandomSeed: 832050
+       BudgetConstraint: 0.3000
+         CapitalistProb: 0.3000
+    UseIndexedMortgages: 0

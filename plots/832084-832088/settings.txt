@@ -1,0 +1,39 @@
+Params.r832084.SimulationRunPar - Black
+
+ans = 
+
+              RunNumber: 832084
+             RandomSeed: 832040
+       BudgetConstraint: 0.3000
+         CapitalistProb: 0.2000
+    UseIndexedMortgages: 0
+
+>> Params.r832085.SimulationRunPar - Blue
+
+ans = 
+
+              RunNumber: 832085
+             RandomSeed: 832040
+       BudgetConstraint: 0.3000
+         CapitalistProb: 0.3000
+    UseIndexedMortgages: 0
+
+>> Params.r832087.SimulationRunPar - Green
+
+ans = 
+
+              RunNumber: 832087
+             RandomSeed: 832040
+       BudgetConstraint: 0.4000
+         CapitalistProb: 0.2000
+    UseIndexedMortgages: 0
+
+>> Params.r832088.SimulationRunPar - Red
+
+ans = 
+
+              RunNumber: 832088
+             RandomSeed: 832040
+       BudgetConstraint: 0.4000
+         CapitalistProb: 0.3000
+    UseIndexedMortgages: 0
