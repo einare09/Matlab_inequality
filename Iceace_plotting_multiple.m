@@ -5,7 +5,7 @@ clear all
 counter = 0;
 
 %Define RunNumbers
-RunNumbers = [832102,832103,832106,832107];
+RunNumbers = [832164:832166];
 %for saving figures - Define path to figure folder
 FigPat = strcat('C:\Users\Iceace\Dropbox\Phd\Inequality\',num2str(RunNumbers(1)),'-',num2str(RunNumbers(end)));
 current_folder = cd;
