@@ -12,5 +12,7 @@ else
 end
 
 %% Update Households income and Liquidity
-Households.CapitalIncomeFirms = Households.IsCapitalist*sum(Fund.DivedendsPaid)/sum(Households.IsCapitalist);
+%Households.CapitalIncomeFirms = Households.IsCapitalist*sum(Fund.DivedendsPaid)/sum(Households.IsCapitalist);
+%changed 17.3.2015
+Households.CapitalIncomeFirms = Households.NumberOfShares*sum(Fund.DivedendsPaid);
 Households.Liquidity = Households.Liquidity + Households.CapitalIncomeFirms;

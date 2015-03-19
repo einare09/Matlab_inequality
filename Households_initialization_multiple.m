@@ -3,7 +3,10 @@ Households.Parameters.LaborTurnoverProbability = 0.1;
 Households.Parameters.Memory0 = 1; %used to remember past wages and past real estate prices
 Households.Parameters.WealthEffect0 = 0.07;
 Households.Parameters.IsCapitalistProb = SimulationRunPar.CapitalistProb;
+%Define the ratio capitalists spend out of capital income on consumption
 Households.Parameters.CapitalistConsumptionBudget = CapitalistConsumptionBudget;
+%Define total number of shares to be divided between households
+Households.Parameters.TotalNumberOfShares = NrAgents.Banks+NrAgents.CstrFirms+NrAgents.Firms;
 
 %% Household initial state variables
 %HouseholdsLaborIncome0 = 20;
@@ -22,6 +25,14 @@ Households.TimeOnMarket = zeros(1,NrAgents.Households);
 Households.IsCapitalist = zeros(1,NrAgents.Households);
 %Households.IsCapitalist(rand(1,NrAgents.Households) < Households.Parameters.IsCapitalistProb) = 1;
 Households.IsCapitalist(1:round(Households.Parameters.IsCapitalistProb*NrAgents.Households)) = 1;
+%Create power law distribution for number of shares per houshold
+%Added 17.3.2015
+Plawdist = randht(round(Households.Parameters.IsCapitalistProb*NrAgents.Households),'powerlaw',3);
+Plawdist = sort(Plawdist,'descend');
+Plawdist = Plawdist./sum(Plawdist);
+Households.NumberOfShares = zeros(1,NrAgents.Households);
+Households.NumberOfShares(1:length(Plawdist)) = Plawdist;
+
 Households.MortgagesWrittenOff  = zeros(1,NrAgents.Households);
 
 %% Initialization of Households Balance Sheets
@@ -68,7 +79,8 @@ Households.QuarterlyLaborIncome(3,1:NrEmployed0) = PriceIndices.wage;
 Households.LaborIncome(1:NrEmployed0) = PriceIndices.wage;
 
 Households.QuarterlyCapitalIncome = zeros(1,NrAgents.Households);
-Households.QuarterlyCapitalIncome = ones(1,NrAgents.Households)*PriceIndices.wage/3;
+%Removed 17.3.2015
+%Households.QuarterlyCapitalIncome = ones(1,NrAgents.Households)*PriceIndices.wage/3;
 Households.HousingPayment = Households.TotalMortgage.*(PriceIndices.MortgageRate/4);
 
 Households.Benefits = zeros(1,NrAgents.Households);
