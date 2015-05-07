@@ -27,7 +27,7 @@ Households.IsCapitalist = zeros(1,NrAgents.Households);
 Households.IsCapitalist(1:round(Households.Parameters.IsCapitalistProb*NrAgents.Households)) = 1;
 %Create power law distribution for number of shares per houshold
 %Added 17.3.2015
-Plawdist = randht(round(Households.Parameters.IsCapitalistProb*NrAgents.Households),'powerlaw',3);
+Plawdist = randht(round(Households.Parameters.IsCapitalistProb*NrAgents.Households),'powerlaw',PowerLawAlpha);
 Plawdist = sort(Plawdist,'descend');
 Plawdist = Plawdist./sum(Plawdist);
 Households.NumberOfShares = zeros(1,NrAgents.Households);

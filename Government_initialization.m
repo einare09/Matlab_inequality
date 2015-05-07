@@ -10,7 +10,7 @@ Government.Expenditures = 0;
 Government.Balance = 0;
 Government.Equity = 0;
 
-Government.Parameters.LeftishPolicy = GovPolicyRatio;
+Government.Parameters.LeftishPolicy = SimulationRunPar.GovPolicyRatio;
 %Government.Parameters.MinCBrate = 0.03;
 Government.Parameters.MaxUnemp = Inf;
 
