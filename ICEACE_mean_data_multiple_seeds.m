@@ -19,7 +19,7 @@ AlphaBeta = {'a10b25','a20b25','a30b25','a10b30','a20b30','a30b30','a10b40','a20
 
 for iii = 1:length(AlphaBeta)
 %set run numbers to use
-RunNumbers(iii,:) = 832310+iii:10:832480+iii;
+RunNumbers(iii,:) = 832310+iii:10:832520+iii;
 %set counter
 counter = 0;
 
@@ -91,6 +91,9 @@ counter = 0;
         %Housing Units
         HU_CAP_MS.(AlphaBeta{iii})(counter,:) = sum(HouseholdsHousingAmount(:,1:1:Total_num_capitalists),2);
         HU_nonCAP_MS.(AlphaBeta{iii})(counter,:) = sum(HouseholdsHousingAmount(:,Total_num_capitalists+1:1:end),2);
+        %Housing market
+        BankMortgageBlocked_MS.(AlphaBeta{iii})(counter,:) = BanksMortgageBlocked;
+        HHMortgageRejected_MS.(AlphaBeta{iii})(counter,:) = HouseholdsMortgageRejected;
         %Liquidity
         LIQ_CAP_MS.(AlphaBeta{iii})(counter,:) = sum(HouseholdsLiquidity(:,1:1:Total_num_capitalists),2);
         LIQ_nonCAP_MS.(AlphaBeta{iii})(counter,:) = sum(HouseholdsLiquidity(:,Total_num_capitalists+1:1:end),2);
@@ -105,6 +108,11 @@ counter = 0;
         GINI_netto.(AlphaBeta{iii})(counter,:) = g_netto;
         GINI_gross.(AlphaBeta{iii})(counter,:) = g_gross;
         GINI_DI.(AlphaBeta{iii})(counter,:) = g_DI;
+        %Firms
+        Debt_Firms_MS.(AlphaBeta{iii})(counter,:) = sum(FirmsTotalDebts,2);
+        Debt_CstrFirms_MS.(AlphaBeta{iii})(counter,:) = sum(CstrFirmsTotalDebts,2);
+        Liq_Firms_MS.(AlphaBeta{iii})(counter,:) = sum(FirmsLiquidity,2);
+        Liq_CstrFirms_MS.(AlphaBeta{iii})(counter,:) = sum(CstrFirmsLiquidity,2);
         
     end
     %Create timeseries fot mean of run numbers
@@ -123,11 +131,13 @@ counter = 0;
     DATA.QuarterlyIncome_nonCAP_MS_mean(iii,:) = mean(QuarterlyIncome_nonCAP_MS.(AlphaBeta{iii}));
     DATA.QuarterlyRatio_nonCAP_MS_mean(iii,:) = mean(QuarterlyHousingPayment_nonCAP_MS.(AlphaBeta{iii}));
     DATA.Mortgages_CAP_MS_mean(iii,:) = mean(Mortgages_CAP_MS.(AlphaBeta{iii}));
-    DATA.Mortgages_nonCAP_MS_mean(iii,:) = mean( Mortgages_nonCAP_MS.(AlphaBeta{iii}));
+    DATA.Mortgages_nonCAP_MS_mean(iii,:) = mean(Mortgages_nonCAP_MS.(AlphaBeta{iii}));
     DATA.DI_CAP_MS_mean(iii,:) = mean(DI_CAP_MS.(AlphaBeta{iii}));
     DATA.DI_nonCAP_MS_mean(iii,:) = mean(DI_nonCAP_MS.(AlphaBeta{iii}));
     DATA.HU_CAP_MS_mean(iii,:) = mean(HU_CAP_MS.(AlphaBeta{iii}));
     DATA.HU_nonCAP_MS_mean(iii,:) = mean(HU_nonCAP_MS.(AlphaBeta{iii}));
+    DATA.BankMortgageBlocked_MS_mean(iii,:) = mean(BankMortgageBlocked_MS.(AlphaBeta{iii}));
+    DATA.HHMortgageRejected_MS_mean(iii,:) = mean(HHMortgageRejected_MS.(AlphaBeta{iii}));
     DATA.LIQ_CAP_MS_mean(iii,:) = mean(LIQ_CAP_MS.(AlphaBeta{iii}));
     DATA.LIQ_nonCAP_MS_mean(iii,:) = mean(LIQ_nonCAP_MS.(AlphaBeta{iii}));
     DATA.GINI_netto_MS_mean(iii,:) = mean(GINI_netto.(AlphaBeta{iii}));
@@ -135,6 +145,10 @@ counter = 0;
     DATA.GINI_DI_MS_mean(iii,:) = mean(GINI_DI.(AlphaBeta{iii}));
     DATA.Total_num_capitalists(iii,:) = Total_num_capitalists;
     DATA.Total_num_noncapitalists(iii,:) = Total_num_noncapitalists;
+    DATA.Debt_Firms_MS_mean(iii,:) = mean(Debt_Firms_MS.(AlphaBeta{iii}));
+    DATA.Debt_CstrFirms_MS_mean(iii,:) = mean(Debt_CstrFirms_MS.(AlphaBeta{iii}));
+    DATA.Liq_Firms_MS_mean(iii,:) = mean(Liq_Firms_MS.(AlphaBeta{iii}));
+    DATA.Liq_CstrFirms_MS_mean(iii,:) = mean(Liq_CstrFirms_MS.(AlphaBeta{iii}));
 end
 
 save('DATA_MS.mat','-struct','DATA');

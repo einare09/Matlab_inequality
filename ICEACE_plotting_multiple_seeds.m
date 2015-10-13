@@ -12,7 +12,7 @@ current_folder = cd;
 mkdir(FigPat);
 %Define parameters
 AlphaBeta = {'a10b25','a20b25','a30b25','a10b30','a20b30','a30b30','a10b40','a20b40','a30b40'};
-SelectedAB = [3,6,9];
+SelectedAB = [1,7,3,9];
 %Define RunNumbers
 
 for iii = 1:length(SelectedAB)
@@ -389,6 +389,33 @@ for iii = 1:length(SelectedAB)
     if iii == length(SelectedAB)
     cd(FigPat);
     saveas(gcf,strcat('Economy_GINI_Index_delta','.pdf'))
+    cd(current_folder);
+    end
+    
+    %% Figure 11: Real Estate Market financial constraints
+    figure(11); hold on; grid on; box on
+    set(gcf,'Name','REmarket: financial comstraints')
+    set(gcf,'PaperType','A4')
+    set(gcf,'PaperPosition',[0,0,8.26,11.69])
+    
+    subplot(2,1,1); hold on; grid on; box on
+    title('Banks mortgages blocked','fontsize',font_sz)
+    plot(XVector_year,BankMortgageBlocked_MS_mean(SelectedAB(iii),:),colore)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    xlabel('years','fontsize',font_sz)
+    hold off
+    
+    subplot(2,1,2); hold on; grid on; box on
+    title('Households mortgages rejected','fontsize',font_sz)
+    plot(XVector_year,HHMortgageRejected_MS_mean(SelectedAB(iii),:),colore)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    xlabel('years','fontsize',font_sz)
+    hold off
+    
+    %file save pdf   
+    if iii == length(SelectedAB)
+    cd(FigPat);
+    saveas(gcf,strcat('REmarket_Financial_Constraints','.pdf'))
     cd(current_folder);
     end
     
