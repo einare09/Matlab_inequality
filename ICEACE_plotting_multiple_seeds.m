@@ -12,7 +12,7 @@ current_folder = cd;
 mkdir(FigPat);
 %Define parameters
 AlphaBeta = {'a10b25','a20b25','a30b25','a10b30','a20b30','a30b30','a10b40','a20b40','a30b40'};
-SelectedAB = [1,7,3,9];
+SelectedAB = [4,5,6];
 %Define RunNumbers
 
 for iii = 1:length(SelectedAB)
@@ -75,7 +75,7 @@ for iii = 1:length(SelectedAB)
     subplot(2,1,2);hold on; grid on; box on
     plot(XVector_year,Unemployment_MS_mean(SelectedAB(iii),:),colore)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
-    ylabel('Employment','fontsize',font_sz)
+    ylabel('Unemployment','fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     legend(AlphaBeta(SelectedAB(1:iii)),'Location','Best')
     title('Unemployment')
@@ -419,4 +419,22 @@ for iii = 1:length(SelectedAB)
     cd(current_folder);
     end
     
+    %% Figure 12: Central bank interest rates
+    figure(12); hold on; grid on; box on
+    set(gcf,'Name','REmarket: Central Bank interest rate')
+    set(gcf,'PaperType','A4')
+    set(gcf,'PaperPosition',[0,0,8.26,11.69])
+    
+    title('Central Bank interest rate','fontsize',font_sz)
+    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end),CBInterestRate_MS_mean(SelectedAB(iii),:),colore)
+    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
+    xlabel('years','fontsize',font_sz)
+    hold off
+    
+    %file save pdf   
+    if iii == length(SelectedAB)
+    cd(FigPat);
+    saveas(gcf,strcat('Central_Bank_interest_rate','.pdf'))
+    cd(current_folder);
+    end
 end

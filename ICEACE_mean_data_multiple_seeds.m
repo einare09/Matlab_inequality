@@ -19,7 +19,7 @@ AlphaBeta = {'a10b25','a20b25','a30b25','a10b30','a20b30','a30b30','a10b40','a20
 
 for iii = 1:length(AlphaBeta)
 %set run numbers to use
-RunNumbers(iii,:) = 832310+iii:10:832520+iii;
+RunNumbers(iii,:) = 832310+iii:10:832560+iii;
 %set counter
 counter = 0;
 
@@ -53,6 +53,8 @@ counter = 0;
         PriceIndexInfl = PriceIndex(1:TimeConstants.NrDaysInMonth:end);
         WageIndexInfl = WageIndex(1:TimeConstants.NrDaysInMonth:end);
         HousingPricesInfl = HousingPrices(1:TimeConstants.NrDaysInMonth:end);
+
+        CBInterestRate_MS.(AlphaBeta{iii})(counter,:) = CBRate(1:TimeConstants.NrDaysInMonth:end);
     
         InflationPrice_MS.(AlphaBeta{iii})(counter,:)   = ((PriceIndexInfl(13:end)-PriceIndexInfl(1:end-12))./PriceIndexInfl(1:end-12))*100;
         InflationWages_MS.(AlphaBeta{iii})(counter,:)   = ((WageIndexInfl(13:end)-WageIndexInfl(1:end-12))./WageIndexInfl(1:end-12))*100;
@@ -123,6 +125,7 @@ counter = 0;
     DATA.InflationHousing_MS_mean(iii,:) = mean(InflationHousing_MS.(AlphaBeta{iii}));
     DATA.RealGDP_MS_mean(iii,:) = mean(RealGDP_MS.(AlphaBeta{iii}));
     DATA.Unemployment_MS_mean(iii,:) = mean(Unemployment_MS.(AlphaBeta{iii}));
+    DATA.CBInterestRate_MS_mean(iii,:) = mean(CBInterestRate_MS.(AlphaBeta{iii}));
     DATA.TotalHHEquity_MS_mean(iii,:) = mean(TotalHHEquity_MS.(AlphaBeta{iii}));
     DATA.CapHHEquity_MS_mean(iii,:) = mean(CapHHEquity_MS.(AlphaBeta{iii}));
     DATA.RegHHEquity_MS_mean(iii,:) = mean(RegHHEquity_MS.(AlphaBeta{iii}));
