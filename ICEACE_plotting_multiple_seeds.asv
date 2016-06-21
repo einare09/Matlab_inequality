@@ -996,7 +996,7 @@ for iii = SelectedAB
     
     %% Figure 25
     figure(25);hold on; grid off; box on
-    set(gcf,'Name','Real GDP')
+    set(gcf,'Name','Real Mortgages')
     set(gcf,'PaperPosition',[0,0,8.26,5.85])
     set(gcf,'PaperType','A5')
     set(gcf,'PaperPosition',[0,0,8.26,5.85])

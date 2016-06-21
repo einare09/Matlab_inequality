@@ -165,9 +165,9 @@ for d = (SimulationStartingDay+1):(SimulationStartingDay+SimulationDurationInDay
     %% Central Bank Policy
     CentralBank_TaylorPolicy
     %% Set new beta (DTI) at year 8
-    if d == 384
-        REmarket.BudgetConstraint = 0.4;
-    end
+%     if d == 384
+%         REmarket.BudgetConstraint = 0.4;
+%     end
     clear quarter
     %% Saving
         Filename = ['ICEACE_run', num2str(RunNumber), '_day', num2str(d), '.mat'];

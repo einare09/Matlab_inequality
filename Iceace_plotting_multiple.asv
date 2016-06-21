@@ -5,7 +5,7 @@ clear all
 counter = 0;
 
 %Define RunNumbers
-RunNumbers = [832821,832823,832824,832826,832827,832829];%[832781,832782,832784,832785,832787,832788];%301:303;
+RunNumbers = [832774:832779];%301:303;
 %for saving figures - Define path to figure folder
 FigPat = strcat('C:\Users\Iceace\Dropbox\Phd\Inequality\',num2str(RunNumbers(1)),'-',num2str(RunNumbers(end)));
 current_folder = cd;
@@ -636,7 +636,6 @@ for RunNumber = RunNumbers
     for i=1:length(HouseholdsEquity(:,1))
         [g_netto(i),l_netto,a_netto] = gini(pop,HouseholdsEquity(i,:),makeplot);
         [g_lordo(i),l_lordo,a_lordo] = gini(pop,HouseholdsTotalAssets(i,:),makeplot);
-        [g_mortgages(i),l_mortgages,a_mortgages] = gini(pop,HouseholdsTotalMortgage(i,:),makeplot);
     end
     
     figure(22);
@@ -644,7 +643,7 @@ for RunNumber = RunNumbers
     set(gcf,'PaperType','A4')
     set(gcf,'PaperPosition',[0,0,8.26,11.69])
     
-    subplot(3,1,1); hold on; grid on; box on
+    subplot(2,1,1); hold on; grid on; box on
     plot(XVector_year(1:end),g_netto,colore)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     set(gca,'fontsize',font_sz)
@@ -652,18 +651,11 @@ for RunNumber = RunNumbers
     ylabel('Gini Index Net','fontsize',font_sz)
     hold off
     
-    subplot(3,1,2); hold on; grid on; box on
+    subplot(2,1,2); hold on; grid on; box on
     plot(XVector_year(1:end),g_lordo,colore)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     ylabel('Gini Index Gross','fontsize',font_sz)
-    hold off
-    
-    subplot(3,1,3); hold on; grid on; box on
-    plot(XVector_year(1:end),g_mortgages,colore)
-    set(gca,'xtick',visualization_vector,'fontsize',font_sz)
-    xlabel('years','fontsize',font_sz)
-    ylabel('Gini Index Mortgages','fontsize',font_sz)
     hold off
     
     %file save pdf

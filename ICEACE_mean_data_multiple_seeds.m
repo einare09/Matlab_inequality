@@ -14,12 +14,12 @@ end
 %current_folder = cd;
 %mkdir(FigPat);
 %Define parameters
-AlphaBeta = {'a10b25','a20b25','a30b25','a10b30','a20b30','a30b30','a10b40','a20b40','a30b40'};
+AlphaBeta = {'a10b25','a30b25','a10b30','a30b30','a10b35','a30b35'};
 %Define RunNumbers
 
 for iii = 1:length(AlphaBeta)
 %set run numbers to use
-RunNumbers(iii,:) = 832310+iii:10:832560+iii;
+RunNumbers(iii,:) = 50000+iii:10:50030; %832310+iii:10:832730+iii;
 %set counter
 counter = 0;
 
@@ -96,25 +96,55 @@ counter = 0;
         %Housing market
         BankMortgageBlocked_MS.(AlphaBeta{iii})(counter,:) = BanksMortgageBlocked;
         HHMortgageRejected_MS.(AlphaBeta{iii})(counter,:) = HouseholdsMortgageRejected;
+        FireSales_HH_MS.(AlphaBeta{iii})(counter,:) = HousingsNumFireSale;
+        HousingDemand_MS.(AlphaBeta{iii})(counter,:) = HousingDemand;
+        HousingSupply_MS.(AlphaBeta{iii})(counter,:) = HousingSupply;
+        HousingTransactions_MS.(AlphaBeta{iii})(counter,:) = HousingTransactions;
         %Liquidity
         LIQ_CAP_MS.(AlphaBeta{iii})(counter,:) = sum(HouseholdsLiquidity(:,1:1:Total_num_capitalists),2);
         LIQ_nonCAP_MS.(AlphaBeta{iii})(counter,:) = sum(HouseholdsLiquidity(:,Total_num_capitalists+1:1:end),2);
         %GINI Index
         QuarterlyIncome_for_gini = HouseholdsQuarterlyIncome + HouseholdsQuarterlyCapitalIncome - HouseholdsHousingPayment;
+        QuarterlyIncome_for_gini2 = HouseholdsQuarterlyIncome + HouseholdsQuarterlyCapitalIncome;
         pop = ones(length(HouseholdsEquity(1,:)),1);
         for g=1:length(HouseholdsEquity(:,1))
             g_netto(g) = gini(pop,HouseholdsEquity(g,:));
             g_gross(g) = gini(pop,HouseholdsTotalAssets(g,:));
             g_DI(g) = gini(pop,max(QuarterlyIncome_for_gini(g,:),0));
+            g_QI(g) = gini(pop,max(QuarterlyIncome_for_gini2(g,:),0));
         end
         GINI_netto.(AlphaBeta{iii})(counter,:) = g_netto;
         GINI_gross.(AlphaBeta{iii})(counter,:) = g_gross;
         GINI_DI.(AlphaBeta{iii})(counter,:) = g_DI;
+        GINI_QI.(AlphaBeta{iii})(counter,:) = g_QI;
         %Firms
         Debt_Firms_MS.(AlphaBeta{iii})(counter,:) = sum(FirmsTotalDebts,2);
         Debt_CstrFirms_MS.(AlphaBeta{iii})(counter,:) = sum(CstrFirmsTotalDebts,2);
         Liq_Firms_MS.(AlphaBeta{iii})(counter,:) = sum(FirmsLiquidity,2);
         Liq_CstrFirms_MS.(AlphaBeta{iii})(counter,:) = sum(CstrFirmsLiquidity,2);
+        EBIT_Firms_MS.(AlphaBeta{iii})(counter,:) = sum(FirmsEarnings,2);
+        EBIT_CstrFirms_MS.(AlphaBeta{iii})(counter,:) = sum(CstrFirmsEarnings,2);
+        Eq_Firms_MS.(AlphaBeta{iii})(counter,:) = sum(FirmsEquity,2);
+        Eq_CstrFirms_MS.(AlphaBeta{iii})(counter,:) = sum(CstrFirmsEquity,2);
+        %Government
+        Liq_Gov_MS.(AlphaBeta{iii})(counter,:) = GovernmentLiquidity;
+        Balance_Gov_MS.(AlphaBeta{iii})(counter,:) = GovernmentBalance;
+        LaborTaxRate_MS.(AlphaBeta{iii})(counter,:) = LaborTax';
+        CapitalIncomeTaxRate_MS.(AlphaBeta{iii})(counter,:) = CapitalIncomeTax';
+        UnempBenefitsPaid_MS.(AlphaBeta{iii})(counter,:) = GovernmentUnempBenefits';
+        GeneralBenefitsPaid_MS.(AlphaBeta{iii})(counter,:) = GovernmentGeneralBenefits';
+        %Banks
+        TA_Banks_MS.(AlphaBeta{iii})(counter,:) = sum(BanksTotalAssets,2);
+        CBDebt_Banks_MS.(AlphaBeta{iii})(counter,:) = sum(CentralBankDebt,2);
+        Liq_Banks_MS.(AlphaBeta{iii})(counter,:) = sum(BanksLiquidity,2);
+        EBIT_Banks_MS.(AlphaBeta{iii})(counter,:) = sum(BanksEarnings,2);
+        Eq_Banks_MS.(AlphaBeta{iii})(counter,:) = sum(BanksEquity,2);
+        RE_Banks_MS.(AlphaBeta{iii})(counter,:) = sum(BanksRE,2);
+        Loans_Banks_MS.(AlphaBeta{iii})(counter,:) = sum(BanksTotalLoans,2);
+        %Writeoffs
+        HH_MortgagesWrittenOff_MS.(AlphaBeta{iii})(counter,:) = sum(HouseholdsMortgagesWrittenOff,2);
+        
+        
         
     end
     %Create timeseries fot mean of run numbers
@@ -146,13 +176,36 @@ counter = 0;
     DATA.GINI_netto_MS_mean(iii,:) = mean(GINI_netto.(AlphaBeta{iii}));
     DATA.GINI_gross_MS_mean(iii,:) = mean(GINI_gross.(AlphaBeta{iii}));
     DATA.GINI_DI_MS_mean(iii,:) = mean(GINI_DI.(AlphaBeta{iii}));
+    DATA.GINI_QI_MS_mean(iii,:) = mean(GINI_QI.(AlphaBeta{iii}));
     DATA.Total_num_capitalists(iii,:) = Total_num_capitalists;
     DATA.Total_num_noncapitalists(iii,:) = Total_num_noncapitalists;
     DATA.Debt_Firms_MS_mean(iii,:) = mean(Debt_Firms_MS.(AlphaBeta{iii}));
     DATA.Debt_CstrFirms_MS_mean(iii,:) = mean(Debt_CstrFirms_MS.(AlphaBeta{iii}));
     DATA.Liq_Firms_MS_mean(iii,:) = mean(Liq_Firms_MS.(AlphaBeta{iii}));
     DATA.Liq_CstrFirms_MS_mean(iii,:) = mean(Liq_CstrFirms_MS.(AlphaBeta{iii}));
+    DATA.EBIT_Firms_MS_mean(iii,:) = mean(EBIT_Firms_MS.(AlphaBeta{iii}));
+    DATA.EBIT_CstrFirms_MS_mean(iii,:) = mean(EBIT_CstrFirms_MS.(AlphaBeta{iii}));
+    DATA.Eq_Firms_MS_mean(iii,:) = mean(Eq_Firms_MS.(AlphaBeta{iii}));
+    DATA.Eq_CstrFirms_MS_mean(iii,:) = mean(Eq_CstrFirms_MS.(AlphaBeta{iii}));
+    DATA.Liq_Gov_MS_mean(iii,:) = mean(Liq_Gov_MS.(AlphaBeta{iii}));
+    DATA.Balance_Gov_MS_mean(iii,:) = mean(Balance_Gov_MS.(AlphaBeta{iii}));
+    DATA.LaborTaxRate_MS_mean(iii,:) = mean(LaborTaxRate_MS.(AlphaBeta{iii}));
+    DATA.CapitalIncomeTaxRate_MS_mean(iii,:) = mean(CapitalIncomeTaxRate_MS.(AlphaBeta{iii}));
+    DATA.UnempBenefitsPaid_MS_mean(iii,:) = mean(UnempBenefitsPaid_MS.(AlphaBeta{iii}));
+    DATA.GeneralBenefitsPaid_MS_mean(iii,:) = mean(GeneralBenefitsPaid_MS.(AlphaBeta{iii}));
+    DATA.TA_Banks_MS_mean(iii,:) = mean(TA_Banks_MS.(AlphaBeta{iii}));
+    DATA.CBDebt_Banks_MS_mean(iii,:) = mean(CBDebt_Banks_MS.(AlphaBeta{iii}));
+    DATA.Liq_Banks_MS_mean(iii,:) = mean(Liq_Banks_MS.(AlphaBeta{iii}));
+    DATA.EBIT_Banks_MS_mean(iii,:) = mean(EBIT_Banks_MS.(AlphaBeta{iii}));
+    DATA.Eq_Banks_MS_mean(iii,:) = mean(Eq_Banks_MS.(AlphaBeta{iii}));
+    DATA.RE_Banks_MS_mean(iii,:) = mean(RE_Banks_MS.(AlphaBeta{iii}));
+    DATA.Loans_Banks_MS_mean(iii,:) = mean(Loans_Banks_MS.(AlphaBeta{iii}));
+    DATA.FireSales_HH_MS_mean(iii,:) = mean(FireSales_HH_MS.(AlphaBeta{iii}));
+    DATA.HousingDemand_MS_mean(iii,:) = mean(HousingDemand_MS.(AlphaBeta{iii}));
+    DATA.HousingSupply_MS_mean(iii,:) = mean(HousingSupply_MS.(AlphaBeta{iii}));
+    DATA.HousingTransactions_MS_mean(iii,:) = mean(HousingTransactions_MS.(AlphaBeta{iii}));
+    DATA.HH_MortgagesWrittenOff_mean(iii,:) = mean(HH_MortgagesWrittenOff_MS.(AlphaBeta{iii}));
 end
 
-save('DATA_MS.mat','-struct','DATA');
+save('DATA_MS_50000.mat','-struct','DATA');
 
