@@ -5,7 +5,7 @@ clear all
 counter = 0;
 
 %Define RunNumbers
-RunNumbers = [832821,832823,832824,832826,832827,832829];%[832781,832782,832784,832785,832787,832788];%301:303;
+RunNumbers = [40031,40033,40035];%[50171,50172,50173,50174,50175,50176];%[501,504,507];%[832821,832823,832824,832826,832827,832829];%301:303;
 %for saving figures - Define path to figure folder
 FigPat = strcat('C:\Users\Iceace\Dropbox\Phd\Inequality\',num2str(RunNumbers(1)),'-',num2str(RunNumbers(end)));
 current_folder = cd;
@@ -13,6 +13,10 @@ mkdir(FigPat);
 
 for RunNumber = RunNumbers    
     colori = {'k';'b';'g';'r';'y';'m'};
+    %colori_new = {[204/255 0 0],[0 204/255 204/255],[204/255 204/255 0],[0 204/255 0],...
+    %    [204/255 102/255 0],[0 0 204/255],[102/255 0 204/255],[204/255 0 102/255],[96/255 96/255 96/255]};
+    colori_new = {[0 0 0],[1 215/255 0],[220/255 20/255 60/255],[64/255 224/255 208/255],[50/255 205/255 50/255],[106/255 90/255 205/255]};
+
     coloridotted = {':k';':b';':g';':r';':y';':m'};
     coloridased = {'--k';'--b';'--g';'--r';'--y';'--m'};
     if isunix
@@ -31,7 +35,8 @@ for RunNumber = RunNumbers
     colore = colori{counter};
     coloredased = coloridased{counter};
     coloredotted = coloridotted{counter};
-    colore2 = colori{counter};    
+    colore2 = colori{counter};   
+    colore_new = colori_new{counter};
     %SimulationFinalDay = d;
     %SimulationStartingDay = 12;
     %SimulationDurationInQuarters = 120;
@@ -1286,7 +1291,7 @@ for RunNumber = RunNumbers
     set(gcf,'PaperOrientation','landscape')
     
     hold on; box on
-    plot(XVector_year(1:Num_weeks_in_year:end), RealGDP_yearly,colore,'linewidth',line_wdt)
+    plot(XVector_year(1:Num_weeks_in_year:end), RealGDP_yearly,'Color',colore_new,'linewidth',line_wdt)
     ylabel('Real GDP','fontsize',font_sz)
     set(gca,'xtick',0:Num_years,'fontsize',font_sz)
     xlabel('years','fontsize',font_sz)

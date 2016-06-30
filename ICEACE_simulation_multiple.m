@@ -164,7 +164,7 @@ for d = (SimulationStartingDay+1):(SimulationStartingDay+SimulationDurationInDay
     Households_buy_consumption_goods_pay_Firms
     %% Central Bank Policy
     CentralBank_TaylorPolicy
-    %% Set new beta (DTI) at year 8
+    %% Set new beta (DSTI) at year 8
 %     if d == 384
 %         REmarket.BudgetConstraint = 0.4;
 %     end
