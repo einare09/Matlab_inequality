@@ -19,7 +19,7 @@ AlphaBeta = {'a10b25','a30b25','a10b30','a30b30','a10b35','a30b35'};
 
 for iii = 1:length(AlphaBeta)
 %set run numbers to use
-RunNumbers(iii,:) = 40030+iii:10:40100+iii;%50000+iii:10:50190+iii; %832310+iii:10:832730+iii;
+RunNumbers(iii,:) = 60000+iii:10:60090+iii; %40030+iii:10:40220+iii;% var 40160 50000+iii:10:50190+iii; %832310+iii:10:832730+iii;
 %set counter
 counter = 0;
 
@@ -212,5 +212,5 @@ counter = 0;
     DATA.HH_MortgagesWrittenOff_mean(iii,:) = mean(HH_MortgagesWrittenOff_MS.(AlphaBeta{iii}));
 end
 
-save('DATA_MS_40000.mat','-struct','DATA');
+save('DATA_MS_60000.mat','-struct','DATA'); %var 40002
 

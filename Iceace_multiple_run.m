@@ -5,13 +5,13 @@ close all
 Simulation.DurationInQuarters = 100;
 
 BudgetConstraints_grid = [0.25,0.3,0.35];
-RandomSeeds_grid = [832940]; %default seed 832040;
+RandomSeeds_grid = [833180]; %default seed 832040;
 CapitalistProb_grid = [0.1,0.3];
 UseIndexedMortgages_grid = [0];
 CapitalistConsumptionBudget = 0.25; %one value only
 SimulationRunPar.GovPolicyRatio = 0.75; %one value only
 PowerLawAlpha = 3; %one value only - Inf is equal to uniform dist
-SimulationRunPar.RunNumber = 40120;
+SimulationRunPar.RunNumber = 60090;
 
 warning off
 

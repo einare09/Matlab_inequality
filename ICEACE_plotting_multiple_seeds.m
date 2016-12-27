@@ -4,7 +4,7 @@ clear all
 
 warning off
 %load data
-load('DATA_MS_40000.mat')
+load('DATA_MS_40002.mat') %var 40002
 %for saving figures - Define path to figure folder
 FigPat = strcat('C:\Users\Iceace\Dropbox\Phd\Inequality\MultipleSeeds');
 current_folder = cd;
@@ -367,9 +367,11 @@ for iii = SelectedAB
         GINI_DI_y(k) = mean(GINI_DI_MS_mean(iii,j+1:j+Num_weeks_in_year));
         GINI_QI_y(k) = mean(GINI_QI_MS_mean(iii,j+1:j+Num_weeks_in_year));
         Real_GDP_y(k) = mean(RealGDP_MS_mean(iii,i+1:i+12));
+        Unemployment_y(k) = mean(Unemployment_MS_mean(iii,i+1:i+12));
         GINI_Mortgages_y(k) = mean(GINI_mortgages_MS_mean(iii,j+1:j+Num_weeks_in_year));
         HousingPrice_y(k) = mean(HousingPrices_MS_mean(iii,j+1:j+Num_weeks_in_year));
         Dividends_y(k) = mean(CapitalIncome_MS_mean(iii,j+1:j+Num_weeks_in_year));
+        Mortgages_y(k) = mean(Mortgages_CAP_MS_mean(iii,j+1:j+Num_weeks_in_year)+Mortgages_nonCAP_MS_mean(iii,j+1:j+Num_weeks_in_year));
         j = j + Num_weeks_in_year;
         i = i + 12;
     end
@@ -1085,7 +1087,7 @@ for iii = SelectedAB
     cd(current_folder);
     end
     
-    %% Figure 27: Gini index yearly - only net
+    %% Figure 27: Real GDP by alpha
     figure(27);hold on; grid on; box on;
     set(gcf,'Name','GDP yearly by alpha')
     %set(gcf,'PaperType','A4')
@@ -1098,7 +1100,7 @@ for iii = SelectedAB
     if iii == 1 || iii == 3 || iii == 5
     subplot(2,1,1)
     hold on; grid on; box on;
-    plot(Real_GDP_y,'Color',colore,'linewidth',line_wdt)
+    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end), RealGDP_MS_mean(iii,:),'Color',colore,'linewidth',line_wdt)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     set(gca,'fontsize',font_sz)
     set(gca,'YLim',[20000 45000])
@@ -1110,7 +1112,7 @@ for iii = SelectedAB
     elseif iii == 2 || iii == 4 || iii == 6
     subplot(2,1,2)
     hold on; grid on; box on;
-    plot(Real_GDP_y,'Color',colore,'linewidth',line_wdt)
+    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end), RealGDP_MS_mean(iii,:),'Color',colore,'linewidth',line_wdt)
     set(gca,'xtick',visualization_vector,'fontsize',font_sz)
     set(gca,'fontsize',font_sz)
     set(gca,'YLim',[20000 45000])
@@ -1613,13 +1615,74 @@ for iii = SelectedAB
     saveas(gcf,strcat('Cross_correlation_NW_HP','.pdf'))
     cd(current_folder);
     end
+    
+    %% Figure 37: Cross correlation real GDP and Mortgages
+    
+    figure(37);
+    set(gcf,'Name','CrossCorrelation GDP Mort')
+    set(gcf,'PaperPosition',[0,0,8.26,5.85])
+    set(gcf,'PaperType','A5')
+    set(gcf,'PaperPosition',[0,0,8.26,5.85])
+    set(gcf,'PaperOrientation','landscape')
+    
+    if iii == 1
+    subplot(2,3,1); hold on; grid on; box on
+    title(Legends_for_figs(1))
+    crosscorr(Real_GDP_y,Mortgages_y)
+    title(Legends_for_figs(1))
+    ylabel('Cross-Corr Net Wealth and Housing Price','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 3
+    subplot(2,3,2); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Mortgages_y)
+    title(Legends_for_figs(3))
+    ylabel('','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 5
+    subplot(2,3,3); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Mortgages_y)
+    title(Legends_for_figs(5))
+    ylabel('','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 2
+    subplot(2,3,4); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Mortgages_y)
+    title(Legends_for_figs(2))
+    ylabel('Cross-Corr Net Wealth and Housing Price','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 4
+    subplot(2,3,5); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Mortgages_y)
+    title(Legends_for_figs(4))
+    ylabel('','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 6
+    subplot(2,3,6); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Mortgages_y)
+    title(Legends_for_figs(6))
+    ylabel('','fontsize',font_sz)
+    grid on
+    hold off
+    end
+    
+    %file save pdf
+    if iii == SelectedAB(end)
+    cd(FigPat);
+    saveas(gcf,strcat('Cross_correlation_GDP_Mort','.pdf'))
+    cd(current_folder);
+    end
    
     
-    %% Figure 37: Economy: Real GDP speed of change
+    %% Figure 38: Economy: Real GDP speed of change
     Real_GDP_d = Real_GDP_d./Real_GDP_y(1:end-1);
     Real_GDP_sum_growth(iii) = sum(Real_GDP_d);
     
-    figure(37);
+    figure(38);
     set(gcf,'Name','real GDP growth')
     %set(gcf,'PaperType','A4')
     %set(gcf,'PaperPosition',[0,0,8.26,11.69])
@@ -1657,9 +1720,9 @@ for iii = SelectedAB
     cd(current_folder);
     end
     
-    %% Figure 38: Inequality by seeds real GDP QI
+    %% Figure 39: Inequality by seeds real GDP QI
     
-    figure(38);
+    figure(39);
     set(gcf,'Name','Inequality by seeds Real GDP QI')
     set(gcf,'PaperPosition',[0,0,8.26,5.85])
     set(gcf,'PaperType','A5')
@@ -1680,7 +1743,7 @@ for iii = SelectedAB
     set(AX(2),'Ytick',[-0.1:0.05:0.1])
     set(AX,'xlim',[1 Num_years-1])
     title(Legends_for_figs(1))
-    legend_handle = legend('Real GDP growth','Quarterly income GINI growth','Net wealth GINI growth');
+    legend_handle = legend('Real GDP growth (l-axis)','Quarterly income GINI growth (r-axis)','Net wealth GINI growth');
     set(legend_handle, 'Box', 'off')
     ylabel('Growth rate','fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
@@ -1698,6 +1761,7 @@ for iii = SelectedAB
     set(AX(2),'Ytick',[-0.1:0.05:0.1])
     set(AX,'xlim',[1 Num_years-1])
     title(Legends_for_figs(3))
+    ylabel('Growth rate','fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     hold off
     elseif iii == 5
@@ -1713,6 +1777,7 @@ for iii = SelectedAB
     set(AX(2),'Ytick',[-0.1:0.05:0.1])
     set(AX,'xlim',[1 Num_years-1])
     title(Legends_for_figs(5))
+    ylabel('Growth rate','fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     hold off
     end
@@ -1724,9 +1789,9 @@ for iii = SelectedAB
     cd(current_folder);
     end
     
-    %% Figure 39: Inequality by seeds real GDP QI
+    %% Figure 40: Inequality by seeds real GDP QI
     
-    figure(39);
+    figure(40);
     set(gcf,'Name','Inequality by seeds Real GDP QI')
     set(gcf,'PaperPosition',[0,0,8.26,5.85])
     set(gcf,'PaperType','A5')
@@ -1746,6 +1811,8 @@ for iii = SelectedAB
     set(AX(2),'Ytick',[-0.1:0.05:0.1])
     set(AX,'xlim',[1 24])
     title(Legends_for_figs(2))
+    legend_handle = legend('Real GDP growth (l-axis)','Quarterly income GINI growth (r-axis)','Net wealth GINI growth');
+    set(legend_handle, 'Box', 'off')
     ylabel('Growth rate','fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     hold off
@@ -1762,6 +1829,7 @@ for iii = SelectedAB
     set(AX(2),'Ytick',[-0.1:0.05:0.1])
     set(AX,'xlim',[1 Num_years-1])
     title(Legends_for_figs(4))
+    ylabel('Growth rate','fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     hold off
     elseif iii == 6
@@ -1777,6 +1845,7 @@ for iii = SelectedAB
     set(AX(2),'Ytick',[-0.1:0.05:0.1])
     set(AX,'xlim',[1 Num_years-1])
     title(Legends_for_figs(6))
+    ylabel('Growth rate','fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     hold off
     end
@@ -1785,73 +1854,6 @@ for iii = SelectedAB
     if iii == SelectedAB(end)
     cd(FigPat);
     saveas(gcf,strcat('Inequality_dynamics_by_seeds_GDP_QI_30','.pdf'))
-    cd(current_folder);
-    end
-    
-    %% Figure 40: Inequality by seeds real GDP QI
-    
-    figure(40);
-    set(gcf,'Name','Inequality by seeds Real GDP NW')
-    set(gcf,'PaperPosition',[0,0,8.26,5.85])
-    set(gcf,'PaperType','A5')
-    set(gcf,'PaperPosition',[0,0,8.26,5.85])
-    set(gcf,'PaperOrientation','landscape')
-    
-    if iii == 1
-    subplot(3,1,1); hold on; grid on; box on
-    title(Legends_for_figs(1))
-    [AX,H1,H2] = plotyy(1:24,Real_GDP_d,1:24,GINI_net_d);
-    set(H1,'Color',colori{1},'linewidth',line_wdt)
-    set(H2,'Color',colori{3},'linewidth',line_wdt)
-    set(AX(1),'ycolor',colori{1})
-    set(AX(2),'ycolor',colori{3})
-    set(AX(1),'ylim',[-0.3 0.3])
-    set(AX(1),'Ytick',[-0.3:0.1:0.3])
-    set(AX(2),'ylim',[-0.01 0.05])
-    set(AX(2),'Ytick',[-0.01:0.01:0.05])
-    set(AX,'xlim',[1 Num_years-1])
-    title(Legends_for_figs(1))
-    legend_handle = legend('Real GDP growth','Quarterly income GINI growth','Net wealth GINI growth');
-    set(legend_handle, 'Box', 'off')
-    ylabel('Growth rate','fontsize',font_sz)
-    xlabel('years','fontsize',font_sz)
-    hold off
-    elseif iii == 3
-    subplot(3,1,2); hold on; grid on; box on
-    [AX,H1,H2] = plotyy(1:24,Real_GDP_d,1:24,GINI_net_d);
-    set(H1,'Color',colori{1},'linewidth',line_wdt)
-    set(H2,'Color',colori{3},'linewidth',line_wdt)
-    set(AX(1),'ycolor',colori{1})
-    set(AX(2),'ycolor',colori{3})
-    set(AX(1),'ylim',[-0.3 0.3])
-    set(AX(1),'Ytick',[-0.3:0.1:0.3])
-    set(AX(2),'ylim',[-0.01 0.05])
-    set(AX(2),'Ytick',[-0.01:0.01:0.05])
-    set(AX,'xlim',[1 Num_years-1])
-    title(Legends_for_figs(3))
-    xlabel('years','fontsize',font_sz)
-    hold off
-    elseif iii == 5
-    subplot(3,1,3); hold on; grid on; box on
-    [AX,H1,H2] = plotyy(1:24,Real_GDP_d,1:24,GINI_net_d);
-    set(H1,'Color',colori{1},'linewidth',line_wdt)
-    set(H2,'Color',colori{3},'linewidth',line_wdt)
-    set(AX(1),'ycolor',colori{1})
-    set(AX(2),'ycolor',colori{3})
-    set(AX(1),'ylim',[-0.3 0.3])
-    set(AX(1),'Ytick',[-0.3:0.1:0.3])
-    set(AX(2),'ylim',[-0.01 0.05])
-    set(AX(2),'Ytick',[-0.01:0.01:0.05])
-    set(AX,'xlim',[1 Num_years-1])
-    title(Legends_for_figs(5))
-    xlabel('years','fontsize',font_sz)
-    hold off
-    end
-    
-    %file save pdf
-    if iii == SelectedAB(end)
-    cd(FigPat);
-    saveas(gcf,strcat('Inequality_dynamics_by_seeds_GDP_NW_10','.pdf'))
     cd(current_folder);
     end
     
@@ -1864,6 +1866,75 @@ for iii = SelectedAB
     set(gcf,'PaperPosition',[0,0,8.26,5.85])
     set(gcf,'PaperOrientation','landscape')
     
+    if iii == 1
+    subplot(3,1,1); hold on; grid on; box on
+    title(Legends_for_figs(1))
+    [AX,H1,H2] = plotyy(1:24,Real_GDP_d,1:24,GINI_net_d);
+    set(H1,'Color',colori{1},'linewidth',line_wdt)
+    set(H2,'Color',colori{3},'linewidth',line_wdt)
+    set(AX(1),'ycolor',colori{1})
+    set(AX(2),'ycolor',colori{3})
+    set(AX(1),'ylim',[-0.3 0.3])
+    set(AX(1),'Ytick',[-0.3:0.1:0.3])
+    set(AX(2),'ylim',[-0.01 0.05])
+    set(AX(2),'Ytick',[-0.01:0.01:0.05])
+    set(AX,'xlim',[1 Num_years-1])
+    title(Legends_for_figs(1))
+    legend_handle = legend('Real GDP growth (l-axis)','Net wealth GINI growth (r-axis)','Net wealth GINI growth');
+    set(legend_handle, 'Box', 'off')
+    ylabel('Growth rate','fontsize',font_sz)
+    xlabel('years','fontsize',font_sz)
+    hold off
+    elseif iii == 3
+    subplot(3,1,2); hold on; grid on; box on
+    [AX,H1,H2] = plotyy(1:24,Real_GDP_d,1:24,GINI_net_d);
+    set(H1,'Color',colori{1},'linewidth',line_wdt)
+    set(H2,'Color',colori{3},'linewidth',line_wdt)
+    set(AX(1),'ycolor',colori{1})
+    set(AX(2),'ycolor',colori{3})
+    set(AX(1),'ylim',[-0.3 0.3])
+    set(AX(1),'Ytick',[-0.3:0.1:0.3])
+    set(AX(2),'ylim',[-0.01 0.05])
+    set(AX(2),'Ytick',[-0.01:0.01:0.05])
+    set(AX,'xlim',[1 Num_years-1])
+    title(Legends_for_figs(3))
+    ylabel('Growth rate','fontsize',font_sz)
+    xlabel('years','fontsize',font_sz)
+    hold off
+    elseif iii == 5
+    subplot(3,1,3); hold on; grid on; box on
+    [AX,H1,H2] = plotyy(1:24,Real_GDP_d,1:24,GINI_net_d);
+    set(H1,'Color',colori{1},'linewidth',line_wdt)
+    set(H2,'Color',colori{3},'linewidth',line_wdt)
+    set(AX(1),'ycolor',colori{1})
+    set(AX(2),'ycolor',colori{3})
+    set(AX(1),'ylim',[-0.3 0.3])
+    set(AX(1),'Ytick',[-0.3:0.1:0.3])
+    set(AX(2),'ylim',[-0.01 0.05])
+    set(AX(2),'Ytick',[-0.01:0.01:0.05])
+    set(AX,'xlim',[1 Num_years-1])
+    title(Legends_for_figs(5))
+    ylabel('Growth rate','fontsize',font_sz)
+    xlabel('years','fontsize',font_sz)
+    hold off
+    end
+    
+    %file save pdf
+    if iii == SelectedAB(end)
+    cd(FigPat);
+    saveas(gcf,strcat('Inequality_dynamics_by_seeds_GDP_NW_10','.pdf'))
+    cd(current_folder);
+    end
+    
+    %% Figure 42: Inequality by seeds real GDP QI
+    
+    figure(42);
+    set(gcf,'Name','Inequality by seeds Real GDP NW')
+    set(gcf,'PaperPosition',[0,0,8.26,5.85])
+    set(gcf,'PaperType','A5')
+    set(gcf,'PaperPosition',[0,0,8.26,5.85])
+    set(gcf,'PaperOrientation','landscape')
+    
     if iii == 2
     subplot(3,1,1); hold on; grid on; box on
     [AX,H1,H2] = plotyy(1:24,Real_GDP_d,1:24,GINI_net_d);
@@ -1877,6 +1948,8 @@ for iii = SelectedAB
     set(AX(2),'Ytick',[-0.01:0.01:0.05])
     set(AX,'xlim',[1 24])
     title(Legends_for_figs(2))
+    legend_handle = legend('Real GDP growth (l-axis)','Net wealth GINI growth (r-axis) ','Net wealth GINI growth');
+    set(legend_handle, 'Box', 'off')
     ylabel('Growth rate','fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     hold off
@@ -1894,6 +1967,7 @@ for iii = SelectedAB
     set(AX,'xlim',[1 Num_years-1])
     title(Legends_for_figs(4))
     xlabel('years','fontsize',font_sz)
+    ylabel('Growth rate','fontsize',font_sz)
     hold off
     elseif iii == 6
     subplot(3,1,3); hold on; grid on; box on
@@ -1909,6 +1983,7 @@ for iii = SelectedAB
     set(AX,'xlim',[1 Num_years-1])
     title(Legends_for_figs(6))
     xlabel('years','fontsize',font_sz)
+    ylabel('Growth rate','fontsize',font_sz)
     hold off
     end
     
@@ -1919,6 +1994,66 @@ for iii = SelectedAB
     cd(current_folder);
     end
     
+    %% Figure 43: Cross correlation real GDP and Unemployment
+    
+    figure(43);
+    set(gcf,'Name','CrossCorrelation GDP Mort')
+    set(gcf,'PaperPosition',[0,0,8.26,5.85])
+    set(gcf,'PaperType','A5')
+    set(gcf,'PaperPosition',[0,0,8.26,5.85])
+    set(gcf,'PaperOrientation','landscape')
+    
+    if iii == 1
+    subplot(2,3,1); hold on; grid on; box on
+    title(Legends_for_figs(1))
+    crosscorr(Real_GDP_y,Unemployment_y)
+    title(Legends_for_figs(1))
+    ylabel('Cross-Corr Net Wealth and Housing Price','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 3
+    subplot(2,3,2); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Unemployment_y)
+    title(Legends_for_figs(3))
+    ylabel('','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 5
+    subplot(2,3,3); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Unemployment_y)
+    title(Legends_for_figs(5))
+    ylabel('','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 2
+    subplot(2,3,4); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Unemployment_y)
+    title(Legends_for_figs(2))
+    ylabel('Cross-Corr Net Wealth and Housing Price','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 4
+    subplot(2,3,5); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Unemployment_y)
+    title(Legends_for_figs(4))
+    ylabel('','fontsize',font_sz)
+    grid on
+    hold off
+    elseif iii == 6
+    subplot(2,3,6); hold on; grid on; box on
+    crosscorr(Real_GDP_y,Unemployment_y)
+    title(Legends_for_figs(6))
+    ylabel('','fontsize',font_sz)
+    grid on
+    hold off
+    end
+    
+    %file save pdf
+    if iii == SelectedAB(end)
+    cd(FigPat);
+    saveas(gcf,strcat('Cross_correlation_GDP_Unemp','.pdf'))
+    cd(current_folder);
+    end
     
     
 end

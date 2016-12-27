@@ -12,12 +12,12 @@ for h=1:NrAgents.Households
         %(Households.Liquidity(h) + Households.Savings(h)) < 0
          Households.HousingMarketAction(h) = -1;
          Households.HousingFireSale(h) = 1;
-    elseif sum(Households.QuarterlyLaborIncome(:,h)) < REmarket.CapitalLaborRatio*Households.QuarterlyCapitalIncome(h)
-        if REmarket.HousingPrice(end) > REmarket.HousingPrice(end-1)
-              Households.HousingMarketAction(h) = 1;
-        elseif REmarket.HousingPrice(end) <= REmarket.HousingPrice(end-1)
-              Households.HousingMarketAction(h) = -1;
-        end
+%     elseif sum(Households.QuarterlyLaborIncome(:,h)) < REmarket.CapitalLaborRatio*Households.QuarterlyCapitalIncome(h)
+%         if REmarket.HousingPrice(end) > REmarket.HousingPrice(end-1)
+%               Households.HousingMarketAction(h) = 1;
+%         elseif REmarket.HousingPrice(end) <= REmarket.HousingPrice(end-1)
+%               Households.HousingMarketAction(h) = -1;
+%         end
     else
         xx = rand;
         if xx<0.18

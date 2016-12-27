@@ -5,12 +5,12 @@ clear all
 counter = 0;
 
 %Define RunNumbers
-RunNumbers = [40031,40033,40035];%[50171,50172,50173,50174,50175,50176];%[501,504,507];%[832821,832823,832824,832826,832827,832829];%301:303;
+RunNumbers = [60011,60013,60015];%[40031,40033,40035];%[50171,50172,50173,50174,50175,50176];%[832821,832823,832824,832826,832827,832829];%301:303;
 %for saving figures - Define path to figure folder
 FigPat = strcat('C:\Users\Iceace\Dropbox\Phd\Inequality\',num2str(RunNumbers(1)),'-',num2str(RunNumbers(end)));
 current_folder = cd;
 mkdir(FigPat);
-
+s=0; %for multiseed plotting in figure 37
 for RunNumber = RunNumbers    
     colori = {'k';'b';'g';'r';'y';'m'};
     %colori_new = {[204/255 0 0],[0 204/255 204/255],[204/255 204/255 0],[0 204/255 0],...
@@ -1282,7 +1282,13 @@ for RunNumber = RunNumbers
     saveas(gcf,strcat('Economy_RealGDP_Unemployment_yearly','.pdf'))
     cd(current_folder);  
     end
+    %% multiple seeds averaged for real GDP
+    s=s+1;
+    Real_GDP_multiseed(s,:) = RealGDP;
     
+    if RunNumber == RunNumbers(end)
+    Real_GDP_s = mean(Real_GDP_multiseed);
+        
     figure(37);
     set(gcf,'Name','Economy: RealGDP and Unemployment')
     set(gcf,'PaperPosition',[0,0,8.26,5.85])
@@ -1291,16 +1297,16 @@ for RunNumber = RunNumbers
     set(gcf,'PaperOrientation','landscape')
     
     hold on; box on
-    plot(XVector_year(1:Num_weeks_in_year:end), RealGDP_yearly,'Color',colore_new,'linewidth',line_wdt)
+    plot(XVector_year(1:TimeConstants.NrDaysInMonth:end), Real_GDP_s,'Color',colori_new{1},'linewidth',line_wdt)
     ylabel('Real GDP','fontsize',font_sz)
     set(gca,'xtick',0:Num_years,'fontsize',font_sz)
     xlabel('years','fontsize',font_sz)
     set(gca,'xlim',[0 Num_years])
-    set(gca,'ylim',[0 50000])
-    legend_handle = legend('Seed 1','Seed 2','Seed 3','Location','NorthWest');
+    set(gca,'ylim',[20000 50000])
+    legend_handle = legend('\alpha=1,\beta=0.25','Location','SouthWest');
     set(legend_handle, 'Box', 'off')
     hold off
-    
+    end
     
     %file save pdf
     if RunNumber == RunNumbers(end)
